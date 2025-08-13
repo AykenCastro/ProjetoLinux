@@ -154,7 +154,7 @@ O sistema de monitoramento foi implementado em Python com as seguintes caracter�
 - **Detecção de mudanças de estado**: Identifica quando o site sai do ar ou volta a funcionar
 - **Sistema de alertas inteligente**: Envia notificações apenas quando há mudança de status
 - **Logging detalhado**: Registra todas as verificações com timestamps e métricas
-- **Múltiplos canais de notificação**: Suporte para Discord, Slack e Telegram
+- **Canais de notificação**: Suporte para Discord
 - **Tratamento de erros robusto**: Captura e registra diferentes tipos de falhas
 
 **Arquitetura do Script:**
@@ -163,16 +163,14 @@ O script `monitor_site.py` utiliza uma arquitetura modular com as seguintes fun�
 
 1. **`check_site_status()`**: Realiza a verificação HTTP e coleta métricas
 2. **`load_previous_status()`** e **`save_current_status()`**: Gerenciam o estado persistente
-3. **`send_discord_alert()`**, **`send_slack_alert()`**, **`send_telegram_alert()`**: Implementam diferentes canais de notificação
+3. **`send_discord_alert()`**: Implementam os canais de notificação
 4. **`format_alert_message()`**: Formata mensagens de alerta de forma consistente
 
 **Configuração de Webhooks:**
 
-O sistema suporta três tipos de webhooks:
+O sistema o webhooks do discord:
 
 - **Discord**: Utiliza webhooks nativos do Discord para envio de mensagens
-- **Slack**: Integração via Incoming Webhooks do Slack
-- **Telegram**: API oficial do Telegram com bot token e chat ID
 
 #### 3.2 Configuração do Script
 
@@ -200,25 +198,11 @@ Para configurar os webhooks, utilize o script auxiliar fornecido:
 python3 /home/ubuntu/webhook_config.py
 ```
 
-**Para Discord:**
+**No Discord:**
 1. Acesse as configurações do seu servidor Discord
 2. Vá em Integrações > Webhooks
 3. Crie um novo webhook e copie a URL
 4. Cole a URL no configurador
-
-**Para Slack:**
-1. Acesse https://api.slack.com/apps
-2. Crie um novo app ou use um existente
-3. Ative "Incoming Webhooks"
-4. Adicione um webhook ao workspace
-5. Copie a URL gerada
-
-**Para Telegram:**
-1. Converse com @BotFather no Telegram
-2. Use `/newbot` para criar um bot
-3. Copie o token fornecido
-4. Adicione o bot ao grupo/canal desejado
-5. Obtenha o Chat ID através da API
 
 #### 3.4 Automação com Systemd
 
@@ -527,11 +511,8 @@ tail -10 /var/log/monitoramento.log
 
 2. **Testar conectividade:**
    ```bash
-   # Para Discord/Slack
+   # Para Discord
    curl -X POST [URL_DO_WEBHOOK] -H "Content-Type: application/json" -d '{"content":"teste"}'
-   
-   # Para Telegram
-   curl "https://api.telegram.org/bot[TOKEN]/getMe"
    ```
 
 3. **Reconfigurar webhooks:**
