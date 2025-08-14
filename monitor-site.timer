@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer para Monitor do Site
+Requires=monitor-site.service
+
+[Timer]
+OnCalendar=*:*:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
